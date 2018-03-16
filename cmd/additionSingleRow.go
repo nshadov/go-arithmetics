@@ -33,12 +33,38 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		for _, i := range getRandomSingleRow(6) {
-			fmt.Printf("%5d\n", i)
-		}
-
-		fmt.Println("-----")
+		fmt.Println(outputColumns(6, 11))
 	},
+}
+
+func outputColumn(rows int) string {
+	var output string
+
+	for _, i := range getRandomSingleRow(6) {
+		output += fmt.Sprintf("%5d\n", i)
+	}
+
+	output += fmt.Sprintf("-----")
+
+	return output
+}
+
+func outputColumns(rows, cols int) string {
+	var output string
+	columns := make([][]int, cols)
+
+	for i := 0; i < cols; i++ {
+		columns[i] = getRandomSingleRow(rows)
+	}
+
+	for r := 0; r < rows; r++ {
+		for c := 0; c < cols; c++ {
+			output += fmt.Sprintf("%5d", columns[c][r])
+		}
+		output += "\n"
+	}
+
+	return output
 }
 
 func getRandomSingleRow(n int) []int {
